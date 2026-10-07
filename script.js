@@ -1,0 +1,1 @@
+const buttons=document.querySelectorAll('.note-filters button');const posts=document.querySelectorAll('.note-list article');buttons.forEach(btn=>btn.addEventListener('click',()=>{buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');posts.forEach(post=>post.style.display=(btn.dataset.filter==='all'||post.dataset.kind===btn.dataset.filter)?'flex':'none')}));
