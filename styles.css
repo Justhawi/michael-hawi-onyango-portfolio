@@ -143,6 +143,7 @@ a{color:inherit}
 .shot-bar i:first-child{background:var(--orange)}
 .shot-bar span{margin-left:8px}
 .shot img{width:100%;height:auto}
+.project-links{display:flex;flex-wrap:wrap;gap:22px}
 
 /* ---------- Journey tabs ---------- */
 .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:34px 0 8px}
