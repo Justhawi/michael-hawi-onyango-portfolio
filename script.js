@@ -29,7 +29,7 @@
   var hero = document.querySelector('.hero');
   function onScroll() {
     var limit = hero ? hero.offsetHeight - 70 : 40;
-    header.classList.toggle('scrolled', window.scrollY > limit || nav.classList.contains('open'));
+    header.classList.toggle('scrolled', document.body.classList.contains('subpage') || window.scrollY > limit || nav.classList.contains('open'));
   }
 
   /* ---- Mobile menu ---- */
@@ -56,13 +56,17 @@
       entries.forEach(function (en) {
         if (!en.isIntersecting) return;
         links.forEach(function (l) {
-          if (l.getAttribute('href') === '#' + en.target.id) l.setAttribute('aria-current', 'true');
+          var h = l.getAttribute('href');
+          if (h.charAt(0) !== '#') return;
+          if (h === '#' + en.target.id) l.setAttribute('aria-current', 'true');
           else l.removeAttribute('aria-current');
         });
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
     links.forEach(function (l) {
-      var s = document.querySelector(l.getAttribute('href'));
+      var h = l.getAttribute('href');
+      if (!h || h.charAt(0) !== '#') return;
+      var s = document.querySelector(h);
       if (s) io.observe(s);
     });
   }

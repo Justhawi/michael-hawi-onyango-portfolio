@@ -177,6 +177,55 @@ a{color:inherit}
 footer{background:var(--ink);color:var(--paper);padding:18px 4vw;display:flex;justify-content:space-between;font:10px var(--mono)}
 .to-top{text-decoration:none}
 
+/* ---------- Writing (homepage) ---------- */
+.writing{padding:20px 4vw 100px}
+.post-row{display:grid;grid-template-columns:24% 1fr;gap:6px 3vw;padding:30px 0;border-bottom:1px solid var(--line)}
+.post-row .post-meta{grid-row:1/span 3;padding-top:8px}
+.post-row h3{font-size:clamp(24px,2.6vw,34px);letter-spacing:-.045em;line-height:1.1;margin:0}
+.post-row h3 a,.post-card h2 a{text-decoration:none}
+.post-row h3 a:hover,.post-card h2 a:hover{text-decoration:underline;text-underline-offset:4px}
+.post-row p{margin:4px 0 10px;color:var(--muted);max-width:640px;line-height:1.5}
+.post-row .text-link{justify-self:start}
+.post-meta{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0}
+.post-meta .tag{color:var(--fg)}
+
+/* ---------- Blog pages ---------- */
+.subpage main{padding-top:68px}
+.blog-wrap{max-width:1100px;margin:0 auto;padding-left:4vw;padding-right:4vw;padding-bottom:110px}
+.blog-head{padding:80px 0 40px;border-bottom:1px solid var(--line-strong)}
+.blog-head h1{font-size:clamp(44px,6.4vw,92px);line-height:.92;letter-spacing:-.07em;margin:22px 0 22px;max-width:900px}
+.blog-head h1 em,.article h1 em{font-family:var(--serif);font-weight:600;letter-spacing:-.06em}
+.blog-head p{font-size:17px;color:var(--muted);margin:0;max-width:520px}
+.post-list{display:grid;gap:56px;margin-top:50px}
+.post-card{display:grid;grid-template-columns:1.1fr 1fr;gap:4vw;align-items:center}
+.post-card-cover{display:block;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.post-card-cover svg,.post-cover svg{display:block;width:100%;height:auto}
+.post-card h2{font-size:clamp(26px,3vw,40px);letter-spacing:-.05em;line-height:1.05;margin:14px 0 14px}
+.post-card p{line-height:1.55;color:var(--muted);margin:0 0 20px}
+.article-wrap{max-width:760px;margin:0 auto;padding:40px 4vw 110px}
+.back-link{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.04em;text-decoration:none;color:var(--muted)}
+.back-link:hover{color:var(--fg)}
+.article-head{padding:36px 0 30px}
+.article h1{font-size:clamp(38px,5.4vw,64px);line-height:.98;letter-spacing:-.06em;margin:18px 0 22px}
+.article-lede{font-size:20px;line-height:1.5;color:var(--muted);margin:0}
+.post-cover{margin:0 0 40px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.prose{font-size:18px;line-height:1.72}
+.prose h2{font-size:clamp(24px,2.6vw,30px);letter-spacing:-.04em;line-height:1.15;margin:52px 0 12px}
+.prose p,.prose ul{margin:0 0 20px}
+.prose ul{padding-left:22px}
+.prose li{margin-bottom:8px}
+.prose a{text-underline-offset:3px}
+.prose code{font:500 .86em var(--mono);background:var(--card);border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+.prose pre{background:#141312;color:#f2ede4;border-radius:12px;padding:20px 22px;overflow-x:auto;margin:0 0 24px;font-size:14px;line-height:1.6}
+.prose pre code{background:none;border:0;padding:0;color:inherit;font-size:1em}
+.table-wrap{overflow-x:auto;margin:0 0 24px}
+.prose table{width:100%;border-collapse:collapse;font-size:16px}
+.prose th{font:500 11px var(--mono);text-transform:uppercase;letter-spacing:.04em;text-align:left;color:var(--muted);border-bottom:1px solid var(--line-strong);padding:10px 12px 10px 0}
+.prose td{border-bottom:1px solid var(--line);padding:12px 12px 12px 0}
+.sign-off{font-family:var(--serif);font-style:italic;font-size:22px}
+.article-foot{margin-top:50px;padding-top:28px;border-top:1px solid var(--line-strong);display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+.article-foot p{margin:0;color:var(--muted)}
+
 /* ---------- Responsive ---------- */
 @media (max-width:980px){
   .hero{grid-template-columns:1fr;padding-top:110px;gap:56px}
@@ -224,6 +273,14 @@ footer{background:var(--ink);color:var(--paper);padding:18px 4vw;display:flex;ju
   .credentials{padding:72px 18px}
   .skill-groups{grid-template-columns:1fr}
   .contact{padding:72px 18px 28px}
+  .writing{padding:10px 18px 72px}
+  .post-row{grid-template-columns:1fr}
+  .post-row .post-meta{grid-row:auto;padding:0}
+  .blog-wrap,.article-wrap{padding-left:18px;padding-right:18px}
+  .blog-head{padding-top:50px}
+  .post-card{grid-template-columns:1fr;gap:18px}
+  .prose{font-size:17px}
+  .article-lede{font-size:18px}
   .contact h2{margin:56px 0 30px}
   .contact-meta{flex-direction:column;margin-top:64px}
   footer{padding:16px 18px}
