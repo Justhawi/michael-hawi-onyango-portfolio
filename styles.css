@@ -158,6 +158,10 @@ a{color:inherit}
 .timeline .where{margin:0;color:var(--muted);font-size:15px;line-height:1.45}
 .timeline ul{margin:12px 0 0;padding-left:18px;max-width:680px;font-size:14.5px;line-height:1.55}
 .timeline ul li{margin-bottom:4px}
+.tl-figs{grid-column:2;display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px;max-width:900px}
+.tl-figs figure{margin:0}
+.tl-figs img{display:block;width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
+.tl-figs figcaption{margin-top:6px;font:500 10.5px var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
 
 /* ---------- Skills ---------- */
 .credentials{background:var(--inv-bg);color:var(--inv-fg);padding:100px 4vw}
@@ -270,6 +274,7 @@ footer{background:var(--ink);color:var(--paper);padding:18px 4vw;display:flex;ju
   .risk b{font-size:38px}
   .timeline>li{grid-template-columns:1fr}
   .timeline .when{grid-row:auto;padding:0 0 8px}
+  .tl-figs{grid-column:1;grid-template-columns:1fr}
   .credentials{padding:72px 18px}
   .skill-groups{grid-template-columns:1fr}
   .contact{padding:72px 18px 28px}
