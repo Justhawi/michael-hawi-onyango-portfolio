@@ -9,21 +9,13 @@
     var dark = t === 'dark';
     themeBtn.setAttribute('aria-pressed', String(dark));
     themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
-    metaThemes.forEach(function (m) { m.setAttribute('content', dark ? '#141312' : '#ff5a2d'); });
+    metaThemes.forEach(function (m) { m.setAttribute('content', dark ? '#070a14' : '#f5f0e8'); });
     if (save) { try { localStorage.setItem('theme', t); } catch (e) {} }
   }
   applyTheme(root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light', false);
   themeBtn.addEventListener('click', function () {
     applyTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
   });
-  var mq = window.matchMedia('(prefers-color-scheme: dark)');
-  var onSystem = function (e) {
-    var saved = null;
-    try { saved = localStorage.getItem('theme'); } catch (err) {}
-    if (!saved) applyTheme(e.matches ? 'dark' : 'light', false);
-  };
-  if (mq.addEventListener) mq.addEventListener('change', onSystem);
-
   /* ---- Header background after the hero ---- */
   var header = document.getElementById('site-header');
   var hero = document.querySelector('.hero');
