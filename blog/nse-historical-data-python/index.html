@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How to get Nairobi Securities Exchange (NSE) stock data into Python | Michael Hawi Onyango</title>
+  <meta name="description" content="Free daily NSE Kenya stock prices from 2013 to 2025: where to download them, how to load and clean them in Python, the data errors to fix, and a first Safaricom chart." />
+  <meta name="author" content="Michael Hawi Onyango" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#f5f0e8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#070a14" media="(prefers-color-scheme: dark)" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="canonical" href="https://michael-hawi-onyango-portfolio.onrender.com/blog/nse-historical-data-python/" />
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Michael Hawi Onyango" />
+  <meta property="og:title" content="How to get Nairobi Securities Exchange (NSE) stock data into Python" />
+  <meta property="og:description" content="Free daily NSE Kenya stock prices from 2013 to 2025: where to download them, how to load and clean them in Python, the data errors to fix, and a first Safaricom chart." />
+  <meta property="og:url" content="https://michael-hawi-onyango-portfolio.onrender.com/blog/nse-historical-data-python/" />
+  <meta property="og:image" content="https://michael-hawi-onyango-portfolio.onrender.com/og-image.png" />
+  <meta property="article:published_time" content="2026-10-12" />
+  <meta property="article:modified_time" content="2026-10-12" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'light' && t !== 'dark') t = 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "headline": "How to get Nairobi Securities Exchange (NSE) stock data into Python",
+      "description": "Free daily NSE Kenya stock prices from 2013 to 2025: where to download them, how to load and clean them in Python, the data errors to fix, and a first Safaricom chart.",
+      "datePublished": "2026-10-12",
+      "dateModified": "2026-10-12",
+      "author": {
+        "@type": "Person",
+        "@id": "https://michael-hawi-onyango-portfolio.onrender.com/#person",
+        "name": "Michael Hawi Onyango",
+        "url": "https://michael-hawi-onyango-portfolio.onrender.com/",
+        "jobTitle": "AI Engineer, SEO & GEO",
+        "sameAs": [
+          "https://www.linkedin.com/in/hawionyango",
+          "https://github.com/Justhawi"
+        ]
+      },
+      "publisher": {
+        "@type": "Person",
+        "@id": "https://michael-hawi-onyango-portfolio.onrender.com/#person",
+        "name": "Michael Hawi Onyango",
+        "url": "https://michael-hawi-onyango-portfolio.onrender.com/",
+        "jobTitle": "AI Engineer, SEO & GEO",
+        "sameAs": [
+          "https://www.linkedin.com/in/hawionyango",
+          "https://github.com/Justhawi"
+        ]
+      },
+      "mainEntityOfPage": "https://michael-hawi-onyango-portfolio.onrender.com/blog/nse-historical-data-python/",
+      "inLanguage": "en",
+      "image": "https://michael-hawi-onyango-portfolio.onrender.com/og-image.png",
+      "keywords": [
+        "NSE Kenya historical data",
+        "Nairobi Securities Exchange Python",
+        "Safaricom share price history",
+        "NSE stock prices CSV",
+        "pandas"
+      ],
+      "isPartOf": {
+        "@type": "CreativeWorkSeries",
+        "name": "The NSE in Python"
+      },
+      "citation": [
+        "https://data.mendeley.com/datasets/73rb78pmzw/2",
+        "https://data.mendeley.com/datasets/2b63rx67xt"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://michael-hawi-onyango-portfolio.onrender.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blog",
+          "item": "https://michael-hawi-onyango-portfolio.onrender.com/blog/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to get Nairobi Securities Exchange (NSE) stock data into Python",
+          "item": "https://michael-hawi-onyango-portfolio.onrender.com/blog/nse-historical-data-python/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Where can I download historical NSE Kenya stock prices for free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Barack Wanjawa’s NSE All Stocks Prices datasets on Mendeley Data cover every listed company and the main indices with daily prices from January 2013 to December 2025. They are free under a CC BY 4.0 licence, so you can reuse them with credit."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What columns does the NSE dataset contain?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Thirteen: date, stock code, company name, 12-month low and high, the day’s low, high and closing price, the previous price, change, change %, volume traded and an adjusted price."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the NSE data adjusted for stock splits and bonus issues?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Prices are as traded. The adjusted-price column is mostly empty and unreliable, so bonus issues and splits (for example I&amp;M Holdings and Kenya Re) show up as sudden drops. Adjust for them before calculating long-term returns."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate is the dataset?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In my checks, 99.5% of rows have a ‘previous price’ that matches the prior day’s close. Index values match published figures, such as the NSE All Share Index closing 2023 at 92.11. I found and fixed one wrong date, 69 duplicate rows and two bad index values."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What was Safaricom’s highest share price between 2013 and 2025?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "KES 44.95, on 23 August 2021. It then fell to KES 11.65 on 3 November 2023 before closing 2025 at KES 28.35."
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Dataset",
+      "name": "NSE month-end index levels and Safaricom price, 2013–2025",
+      "description": "Month-end closing values of the NSE All Share Index, NSE-20, NSE-25 and Safaricom (SCOM), January 2013 to December 2025, cleaned from the Mendeley Data NSE All Stocks Prices datasets.",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "creator": {
+        "@type": "Person",
+        "@id": "https://michael-hawi-onyango-portfolio.onrender.com/#person",
+        "name": "Michael Hawi Onyango",
+        "url": "https://michael-hawi-onyango-portfolio.onrender.com/",
+        "jobTitle": "AI Engineer, SEO & GEO",
+        "sameAs": [
+          "https://www.linkedin.com/in/hawionyango",
+          "https://github.com/Justhawi"
+        ]
+      },
+      "isBasedOn": "https://data.mendeley.com/datasets/73rb78pmzw/2",
+      "temporalCoverage": "2013-01/2025-12",
+      "spatialCoverage": "Kenya",
+      "distribution": {
+        "@type": "DataDownload",
+        "encodingFormat": "text/csv",
+        "contentUrl": "https://michael-hawi-onyango-portfolio.onrender.com/blog/nse-python/nse-month-end-2013-2025.csv"
+      }
+    }
+  ]
+}
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../styles.css" />
+</head>
+<body class="subpage">
+  <a class="skip-link" href="#article">Skip to article</a>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="site-header scrolled" id="site-header">
+    <a class="brand" href="../../" aria-label="Michael Hawi Onyango, home">MHO</a>
+    <nav class="main-nav" id="main-nav" aria-label="Main">
+      <a href="../../#work">Work</a>
+      <a href="../../#journey">Journey</a>
+      <a href="../" aria-current="true">Blog</a>
+      <a href="../../#contact">Contact</a>
+    </nav>
+    <div class="header-actions">
+      <a class="pill pill-small cv-link" href="../../Michael-Hawi-Onyango-CV.pdf" download>CV <span aria-hidden="true">↓</span></a>
+      <button class="icon-btn theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+      </button>
+      <button class="icon-btn menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main id="article" class="article-wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="../../">Home</a> / <a href="../">Blog</a> / <span>The NSE in Python</span></nav>
+    <article class="article">
+      <header class="article-head">
+        <p class="post-meta"><span class="tag">The NSE in Python · Part 1</span> · <time datetime="2026-10-12">12 October 2026</time> · 9 min read</p>
+        <h1>How to get NSE stock data into Python, <em>free.</em></h1>
+        <p class="article-lede">Thirteen years of daily Nairobi Securities Exchange prices, loaded, cleaned and charted in about 40 lines of Python, including the data errors you need to fix first.</p>
+        <p class="byline">By <a href="../../">Michael Hawi Onyango</a>, AI engineer and SEO/GEO specialist · Data checked against public market reports</p>
+      </header>
+
+      <section class="key-facts" aria-label="Key facts">
+        <h2>Key facts</h2>
+        <ul>
+          <li><strong>Free source:</strong> daily prices for every NSE-listed stock and the main indices, January 2013 to December 2025, on Mendeley Data (CC BY 4.0).</li>
+          <li><strong>Size:</strong> 222,419 daily rows across 72 listed securities (shares, preference shares, REITs and ETFs) and 10 indices, 3,228 trading days.</li>
+          <li><strong>Quality:</strong> 99.5% of rows pass a day-to-day continuity check; I fixed one date typo, 69 duplicate rows and two bad index values.</li>
+          <li><strong>Watch out:</strong> prices are <em>not</em> adjusted for splits or bonus issues.</li>
+          <li><strong>Safaricom:</strong> KES 5.10 in January 2013, a KES 44.95 peak in August 2021, KES 28.35 at the end of 2025.</li>
+        </ul>
+      </section>
+
+      <div class="prose">
+        <p>Most “stock market in Python” tutorials use the S&amp;P 500, because the data is one line of code away. Kenyan data is harder to find, so most people never try. This first post in the series fixes that: where to get free NSE price history, how to load all 13 years in one go, which problems in the data to fix, and your first chart.</p>
+
+        <h2>Where to get free NSE historical data</h2>
+        <p>The best free source I found is a set of yearly files compiled by Barack Wanjawa at the University of Nairobi and published on Mendeley Data. They were originally scraped from the public MyStocks price pages for a research project on neural-network price prediction. There is one dataset per period: 2013–2020, 2021, 2022, 2023–2024 and 2025. Each one has a “Download All” button that gives you a zip of CSV files, one per year plus a list of sectors.</p>
+        <p>The licence is <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>: you can use and share the data as long as you credit the author. All five links are in the sources at the end of this post.</p>
+
+        <h2>What is in the files</h2>
+        <p>Every row is one stock on one trading day, with 13 columns:</p>
+        <div class="table-wrap"><table><thead><tr><th>Column</th><th>What it means</th></tr></thead><tbody><tr><td>Date</td><td>Trading day, e.g. 3-Jan-22</td></tr><tr><td>Code</td><td>Ticker, e.g. SCOM for Safaricom</td></tr><tr><td>Name</td><td>Company name</td></tr><tr><td>12m Low / 12m High</td><td>52-week range (unreliable in older years)</td></tr><tr><td>Day Low / Day High</td><td>Intraday range</td></tr><tr><td>Day Price</td><td>Closing price in KES</td></tr><tr><td>Previous</td><td>Previous closing price</td></tr><tr><td>Change / Change%</td><td>Move versus previous close</td></tr><tr><td>Volume</td><td>Shares traded that day</td></tr><tr><td>Adjusted Price</td><td>Mostly empty and unreliable; don’t use it</td></tr></tbody></table></div>
+        <p>Index rows use a caret in the code, for example <code>^NASI</code> for the NSE All Share Index and <code>^N20I</code> for the NSE-20. That means the same files give you both stocks and the market as a whole.</p>
+
+        <h2>Load 13 years in one go</h2>
+        <p>Unzip the five downloads into a folder called <code>nse-data</code>, then run this. It is the exact code behind every number in this post.</p>
+<pre><code>import glob, os
+import pandas as pd   # pandas 2.2 or newer
+
+COLS = ["date", "code", "name", "low_12m", "high_12m", "day_low", "day_high",
+        "close", "prev", "change", "change_pct", "volume", "adjusted"]
+
+# 1. Load every yearly file into one table
+frames = []
+for path in sorted(glob.glob("nse-data/**/NSE_data_all_stocks*.csv", recursive=True)):
+    year_df = pd.read_csv(path, dtype=str, encoding="utf-8-sig")
+    year_df.columns = COLS
+    year_df["source_file"] = os.path.basename(path)
+    frames.append(year_df)
+nse = pd.concat(frames, ignore_index=True)
+
+# 2. Turn text like "1,600" or "-" into numbers
+def to_number(col):
+    col = col.str.replace(",", "").str.replace("%", "").str.strip()
+    return pd.to_numeric(col.replace("-", None), errors="coerce")
+
+for c in ["low_12m", "high_12m", "day_low", "day_high", "close", "prev", "volume"]:
+    nse[c] = to_number(nse[c])
+nse["date"] = pd.to_datetime(nse["date"].str.strip(), format="%d-%b-%y", errors="coerce")
+nse["code"] = nse["code"].str.strip()</code></pre>
+        <p>Two details save a lot of pain. First, read everything as text (<code>dtype=str</code>), because volumes use thousands separators and missing values are a dash. Second, use <code>utf-8-sig</code>, because some files start with an invisible byte-order mark that would otherwise corrupt the first column name.</p>
+
+        <h2>Check the data before you trust it</h2>
+        <p>Before charting anything, I checked for wrong dates, duplicates and values that jump and snap back. Each check found something.</p>
+        <ul>
+          <li><strong>Dates in the wrong year.</strong> The 2017 file contains one trading day stamped <code>09-May-15</code>. It sits between 8 and 10 May 2017, so it is a typo for 2017.</li>
+          <li><strong>Duplicates.</strong> 69 rows in the 2017 file, all dated 24 March 2017, appear twice with identical values. Drop them.</li>
+          <li><strong>A value typed ten times too high.</strong> The NSE-20 index shows 18,845.31 on 26 November 2024, between days at about 1,885. Divide that one value by ten.</li>
+          <li><strong>A stale index value.</strong> On 27 August 2015 the All Share Index reads 162.75 and the NSE-20 4,759.58, about 15% above the days either side, and both snap back the next day. 162.75 is exactly the All Share Index close from 15 June 2015, so it is a copied old value. Drop those two rows.</li>
+        </ul>
+<pre><code># 3. Fix the known problems
+typo = (nse["source_file"] == "NSE_data_all_stocks_2017.csv") &amp; (nse["date"] == "2015-05-09")
+nse.loc[typo, "date"] = pd.Timestamp("2017-05-09")
+bad = (nse["code"] == "^N20I") &amp; (nse["date"] == "2024-11-26") &amp; (nse["close"] &gt; 10_000)
+nse.loc[bad, "close"] = nse.loc[bad, "close"] / 10
+stale = nse["code"].isin(["^NASI", "^N20I"]) &amp; (nse["date"] == "2015-08-27")
+nse = nse[~stale]
+nse = (nse.dropna(subset=["date", "close"])
+          .drop_duplicates(["code", "date"])
+          .sort_values(["code", "date"]))
+
+# 4. Continuity check: does "previous price" match yesterday's close?
+nse["prior_close"] = nse.groupby("code")["close"].shift()
+both = nse["prev"].notna() &amp; nse["prior_close"].notna()
+match = ((nse["prev"] - nse["prior_close"]).abs() / nse["prior_close"] &lt; 0.005)[both].mean()
+print(f"{len(nse):,} rows, {match:.1%} continuity")   # 222,419 rows, 99.5% continuity</code></pre>
+        <p>Two more things to know: the files have no index values at all from January to May 2022, and 20 and 21 June 2022 look like the same day saved twice. Neither changes the yearly figures in this series, but both matter if you work with daily returns.</p>
+        <p>The continuity check is the useful one. Every row records the previous price, so for 99.5% of rows it should equal the prior row’s close. Where it doesn’t, a day is usually missing from the file. That matters if you calculate daily returns.</p>
+        <p>Finally, I compared the cleaned data against published market reports. The NSE All Share Index closes 2023 at 92.11 and the NSE-20 at 1,501.16, both exactly as reported at the time, and the All Share Index rises 51% in 2025, also matching press coverage.</p>
+
+        <h2>The trap: splits and bonus issues</h2>
+        <p>The adjusted-price column is mostly empty (it has values for part of 2013–2015 and almost none after 2018), and the values it does have don’t look reliable, so treat prices as exactly as traded. When a company issues bonus shares, its price drops overnight even though no shareholder lost money. Examples in the data line up with bonus issues at I&amp;M Holdings (May 2019 and May 2021) and Kenya Re (June 2019 and June 2024). NSE stocks generally can’t move more than about 10% in a day, so any larger daily move deserves a second look before you use it. For this reason, the market-level posts in this series use the official indices, which already account for these events.</p>
+
+        <h2>Your first chart: Safaricom, 2013 to 2025</h2>
+<pre><code># 5. Safaricom month-end prices
+scom = nse[nse["code"] == "SCOM"].set_index("date")["close"]
+scom.resample("ME").last().plot(title="Safaricom (SCOM), KES")</code></pre>
+        <figure class="post-chart">
+          <svg viewBox="0 0 760 360" class="viz" role="img" aria-label="Safaricom (SCOM) month-end share price, January 2013 to December 2025, Kenya shillings"><line class="viz-grid" x1="56" x2="648" y1="324.0" y2="324.0"/><text class="viz-tick" x="48" y="328.0" text-anchor="end">0</text><line class="viz-grid" x1="56" x2="648" y1="263.2" y2="263.2"/><text class="viz-tick" x="48" y="267.2" text-anchor="end">10</text><line class="viz-grid" x1="56" x2="648" y1="202.4" y2="202.4"/><text class="viz-tick" x="48" y="206.4" text-anchor="end">20</text><line class="viz-grid" x1="56" x2="648" y1="141.6" y2="141.6"/><text class="viz-tick" x="48" y="145.6" text-anchor="end">30</text><line class="viz-grid" x1="56" x2="648" y1="80.8" y2="80.8"/><text class="viz-tick" x="48" y="84.8" text-anchor="end">40</text><line class="viz-grid" x1="56" x2="648" y1="20.0" y2="20.0"/><text class="viz-tick" x="48" y="24.0" text-anchor="end">50</text><text class="viz-tick" x="98.0" y="348" text-anchor="middle">2014</text><text class="viz-tick" x="189.7" y="348" text-anchor="middle">2016</text><text class="viz-tick" x="281.4" y="348" text-anchor="middle">2018</text><text class="viz-tick" x="373.0" y="348" text-anchor="middle">2020</text><text class="viz-tick" x="464.8" y="348" text-anchor="middle">2022</text><text class="viz-tick" x="556.4" y="348" text-anchor="middle">2024</text><line class="viz-axis" x1="56" x2="648" y1="324" y2="324"/><text class="viz-tick" x="56" y="12">KES per share</text><polyline class="viz-line s1" points="56.0,290.9 59.5,289.0 63.4,287.5 67.2,282.7 71.1,279.9 74.8,284.2 78.7,279.9 82.6,277.5 86.4,272.3 90.3,266.5 94.0,258.3 97.9,258.0 101.8,257.1 105.3,252.9 109.2,248.9 113.0,244.4 116.9,245.3 120.6,248.3 124.5,249.8 128.4,245.3 132.2,245.6 136.1,250.1 139.8,240.1 143.7,238.6 147.6,238.0 151.1,227.9 155.0,220.3 158.8,218.2 162.7,227.6 166.4,224.0 170.3,236.4 174.2,236.8 178.0,231.6 181.9,236.8 185.6,229.8 189.5,224.9 193.4,231.9 197.1,225.5 201.0,221.2 204.7,220.0 208.6,220.6 212.4,216.1 216.3,208.2 220.2,202.4 223.9,202.7 227.8,203.6 231.6,203.0 235.5,207.9 239.4,211.5 242.9,216.1 246.8,214.6 250.5,207.0 254.4,188.7 258.2,185.7 262.1,175.0 266.0,169.0 269.7,173.5 273.6,169.0 277.4,156.8 281.3,161.4 285.2,144.6 288.7,143.1 292.6,135.5 296.3,152.2 300.2,152.2 304.0,144.6 307.9,153.8 311.8,152.2 315.5,175.0 319.4,182.6 323.2,179.6 327.1,189.0 331.0,179.0 334.5,165.9 338.4,156.5 342.1,152.8 346.0,157.1 349.8,153.2 353.7,157.4 357.6,152.8 361.4,156.8 365.2,143.1 369.0,146.2 372.9,132.5 376.8,138.9 380.4,154.4 384.3,163.2 388.1,150.7 392.0,150.4 395.7,149.8 399.6,152.8 403.5,142.2 407.3,143.4 411.2,136.4 414.9,125.2 418.8,115.8 422.7,106.0 426.2,88.4 430.1,103.6 433.9,78.7 437.8,75.6 441.5,72.0 445.4,68.9 448.3,50.7 449.3,65.0 453.1,68.0 457.0,63.8 460.7,93.3 464.6,93.3 468.5,99.6 472.0,105.4 475.9,116.4 479.7,119.1 483.6,165.9 487.4,172.3 491.2,141.9 495.1,154.1 498.9,172.3 502.8,171.4 506.6,176.0 510.4,177.2 514.3,181.7 517.9,182.3 521.7,214.0 525.5,223.7 529.4,223.1 533.2,217.6 537.1,221.2 540.9,230.4 544.7,235.2 548.6,248.3 549.0,253.2 552.4,242.2 556.3,239.5 560.1,241.3 563.8,243.4 567.7,216.1 571.4,227.0 575.3,215.2 579.1,218.8 583.0,227.3 586.9,235.8 590.6,232.8 594.5,222.2 598.3,232.8 602.2,220.3 606.1,219.4 609.6,214.9 613.5,212.7 617.3,217.3 621.1,198.8 624.9,172.0 628.8,164.1 632.7,150.1 636.5,148.3 640.3,140.1 644.1,149.2 648.0,151.6"/><circle class="viz-end s1" cx="648.0" cy="151.6" r="4"/><text class="viz-label" x="657.0" y="155.6">SCOM 28.35</text><circle class="viz-ann" cx="448.3" cy="50.7" r="4"/><text class="viz-label" x="448.3" y="38.7" text-anchor="middle">Peak KES 44.95 · Aug 2021</text><circle class="viz-ann" cx="549.0" cy="253.2" r="4"/><text class="viz-label" x="549.0" y="275.2" text-anchor="middle">Low KES 11.65 · Nov 2023</text><rect class="viz-hit" x="53.0" y="20" width="6" height="304"><title>Jan 2013: SCOM 5.45</title></rect><rect class="viz-hit" x="56.5" y="20" width="6" height="304"><title>Feb 2013: SCOM 5.75</title></rect><rect class="viz-hit" x="60.4" y="20" width="6" height="304"><title>Mar 2013: SCOM 6.00</title></rect><rect class="viz-hit" x="64.2" y="20" width="6" height="304"><title>Apr 2013: SCOM 6.80</title></rect><rect class="viz-hit" x="68.1" y="20" width="6" height="304"><title>May 2013: SCOM 7.25</title></rect><rect class="viz-hit" x="71.8" y="20" width="6" height="304"><title>Jun 2013: SCOM 6.55</title></rect><rect class="viz-hit" x="75.7" y="20" width="6" height="304"><title>Jul 2013: SCOM 7.25</title></rect><rect class="viz-hit" x="79.6" y="20" width="6" height="304"><title>Aug 2013: SCOM 7.65</title></rect><rect class="viz-hit" x="83.4" y="20" width="6" height="304"><title>Sep 2013: SCOM 8.50</title></rect><rect class="viz-hit" x="87.3" y="20" width="6" height="304"><title>Oct 2013: SCOM 9.45</title></rect><rect class="viz-hit" x="91.0" y="20" width="6" height="304"><title>Nov 2013: SCOM 10.80</title></rect><rect class="viz-hit" x="94.9" y="20" width="6" height="304"><title>Dec 2013: SCOM 10.85</title></rect><rect class="viz-hit" x="98.8" y="20" width="6" height="304"><title>Jan 2014: SCOM 11.00</title></rect><rect class="viz-hit" x="102.3" y="20" width="6" height="304"><title>Feb 2014: SCOM 11.70</title></rect><rect class="viz-hit" x="106.2" y="20" width="6" height="304"><title>Mar 2014: SCOM 12.35</title></rect><rect class="viz-hit" x="110.0" y="20" width="6" height="304"><title>Apr 2014: SCOM 13.10</title></rect><rect class="viz-hit" x="113.9" y="20" width="6" height="304"><title>May 2014: SCOM 12.95</title></rect><rect class="viz-hit" x="117.6" y="20" width="6" height="304"><title>Jun 2014: SCOM 12.45</title></rect><rect class="viz-hit" x="121.5" y="20" width="6" height="304"><title>Jul 2014: SCOM 12.20</title></rect><rect class="viz-hit" x="125.4" y="20" width="6" height="304"><title>Aug 2014: SCOM 12.95</title></rect><rect class="viz-hit" x="129.2" y="20" width="6" height="304"><title>Sep 2014: SCOM 12.90</title></rect><rect class="viz-hit" x="133.1" y="20" width="6" height="304"><title>Oct 2014: SCOM 12.15</title></rect><rect class="viz-hit" x="136.8" y="20" width="6" height="304"><title>Nov 2014: SCOM 13.80</title></rect><rect class="viz-hit" x="140.7" y="20" width="6" height="304"><title>Dec 2014: SCOM 14.05</title></rect><rect class="viz-hit" x="144.6" y="20" width="6" height="304"><title>Jan 2015: SCOM 14.15</title></rect><rect class="viz-hit" x="148.1" y="20" width="6" height="304"><title>Feb 2015: SCOM 15.80</title></rect><rect class="viz-hit" x="152.0" y="20" width="6" height="304"><title>Mar 2015: SCOM 17.05</title></rect><rect class="viz-hit" x="155.8" y="20" width="6" height="304"><title>Apr 2015: SCOM 17.40</title></rect><rect class="viz-hit" x="159.7" y="20" width="6" height="304"><title>May 2015: SCOM 15.85</title></rect><rect class="viz-hit" x="163.4" y="20" width="6" height="304"><title>Jun 2015: SCOM 16.45</title></rect><rect class="viz-hit" x="167.3" y="20" width="6" height="304"><title>Jul 2015: SCOM 14.40</title></rect><rect class="viz-hit" x="171.2" y="20" width="6" height="304"><title>Aug 2015: SCOM 14.35</title></rect><rect class="viz-hit" x="175.0" y="20" width="6" height="304"><title>Sep 2015: SCOM 15.20</title></rect><rect class="viz-hit" x="178.9" y="20" width="6" height="304"><title>Oct 2015: SCOM 14.35</title></rect><rect class="viz-hit" x="182.6" y="20" width="6" height="304"><title>Nov 2015: SCOM 15.50</title></rect><rect class="viz-hit" x="186.5" y="20" width="6" height="304"><title>Dec 2015: SCOM 16.30</title></rect><rect class="viz-hit" x="190.4" y="20" width="6" height="304"><title>Jan 2016: SCOM 15.15</title></rect><rect class="viz-hit" x="194.1" y="20" width="6" height="304"><title>Feb 2016: SCOM 16.20</title></rect><rect class="viz-hit" x="198.0" y="20" width="6" height="304"><title>Mar 2016: SCOM 16.90</title></rect><rect class="viz-hit" x="201.7" y="20" width="6" height="304"><title>Apr 2016: SCOM 17.10</title></rect><rect class="viz-hit" x="205.6" y="20" width="6" height="304"><title>May 2016: SCOM 17.00</title></rect><rect class="viz-hit" x="209.4" y="20" width="6" height="304"><title>Jun 2016: SCOM 17.75</title></rect><rect class="viz-hit" x="213.3" y="20" width="6" height="304"><title>Jul 2016: SCOM 19.05</title></rect><rect class="viz-hit" x="217.2" y="20" width="6" height="304"><title>Aug 2016: SCOM 20.00</title></rect><rect class="viz-hit" x="220.9" y="20" width="6" height="304"><title>Sep 2016: SCOM 19.95</title></rect><rect class="viz-hit" x="224.8" y="20" width="6" height="304"><title>Oct 2016: SCOM 19.80</title></rect><rect class="viz-hit" x="228.6" y="20" width="6" height="304"><title>Nov 2016: SCOM 19.90</title></rect><rect class="viz-hit" x="232.5" y="20" width="6" height="304"><title>Dec 2016: SCOM 19.10</title></rect><rect class="viz-hit" x="236.4" y="20" width="6" height="304"><title>Jan 2017: SCOM 18.50</title></rect><rect class="viz-hit" x="239.9" y="20" width="6" height="304"><title>Feb 2017: SCOM 17.75</title></rect><rect class="viz-hit" x="243.8" y="20" width="6" height="304"><title>Mar 2017: SCOM 18.00</title></rect><rect class="viz-hit" x="247.5" y="20" width="6" height="304"><title>Apr 2017: SCOM 19.25</title></rect><rect class="viz-hit" x="251.4" y="20" width="6" height="304"><title>May 2017: SCOM 22.25</title></rect><rect class="viz-hit" x="255.2" y="20" width="6" height="304"><title>Jun 2017: SCOM 22.75</title></rect><rect class="viz-hit" x="259.1" y="20" width="6" height="304"><title>Jul 2017: SCOM 24.50</title></rect><rect class="viz-hit" x="263.0" y="20" width="6" height="304"><title>Aug 2017: SCOM 25.50</title></rect><rect class="viz-hit" x="266.7" y="20" width="6" height="304"><title>Sep 2017: SCOM 24.75</title></rect><rect class="viz-hit" x="270.6" y="20" width="6" height="304"><title>Oct 2017: SCOM 25.50</title></rect><rect class="viz-hit" x="274.4" y="20" width="6" height="304"><title>Nov 2017: SCOM 27.50</title></rect><rect class="viz-hit" x="278.3" y="20" width="6" height="304"><title>Dec 2017: SCOM 26.75</title></rect><rect class="viz-hit" x="282.2" y="20" width="6" height="304"><title>Jan 2018: SCOM 29.50</title></rect><rect class="viz-hit" x="285.7" y="20" width="6" height="304"><title>Feb 2018: SCOM 29.75</title></rect><rect class="viz-hit" x="289.6" y="20" width="6" height="304"><title>Mar 2018: SCOM 31.00</title></rect><rect class="viz-hit" x="293.3" y="20" width="6" height="304"><title>Apr 2018: SCOM 28.25</title></rect><rect class="viz-hit" x="297.2" y="20" width="6" height="304"><title>May 2018: SCOM 28.25</title></rect><rect class="viz-hit" x="301.0" y="20" width="6" height="304"><title>Jun 2018: SCOM 29.50</title></rect><rect class="viz-hit" x="304.9" y="20" width="6" height="304"><title>Jul 2018: SCOM 28.00</title></rect><rect class="viz-hit" x="308.8" y="20" width="6" height="304"><title>Aug 2018: SCOM 28.25</title></rect><rect class="viz-hit" x="312.5" y="20" width="6" height="304"><title>Sep 2018: SCOM 24.50</title></rect><rect class="viz-hit" x="316.4" y="20" width="6" height="304"><title>Oct 2018: SCOM 23.25</title></rect><rect class="viz-hit" x="320.2" y="20" width="6" height="304"><title>Nov 2018: SCOM 23.75</title></rect><rect class="viz-hit" x="324.1" y="20" width="6" height="304"><title>Dec 2018: SCOM 22.20</title></rect><rect class="viz-hit" x="328.0" y="20" width="6" height="304"><title>Jan 2019: SCOM 23.85</title></rect><rect class="viz-hit" x="331.5" y="20" width="6" height="304"><title>Feb 2019: SCOM 26.00</title></rect><rect class="viz-hit" x="335.4" y="20" width="6" height="304"><title>Mar 2019: SCOM 27.55</title></rect><rect class="viz-hit" x="339.1" y="20" width="6" height="304"><title>Apr 2019: SCOM 28.15</title></rect><rect class="viz-hit" x="343.0" y="20" width="6" height="304"><title>May 2019: SCOM 27.45</title></rect><rect class="viz-hit" x="346.8" y="20" width="6" height="304"><title>Jun 2019: SCOM 28.10</title></rect><rect class="viz-hit" x="350.7" y="20" width="6" height="304"><title>Jul 2019: SCOM 27.40</title></rect><rect class="viz-hit" x="354.6" y="20" width="6" height="304"><title>Aug 2019: SCOM 28.15</title></rect><rect class="viz-hit" x="358.4" y="20" width="6" height="304"><title>Sep 2019: SCOM 27.50</title></rect><rect class="viz-hit" x="362.2" y="20" width="6" height="304"><title>Oct 2019: SCOM 29.75</title></rect><rect class="viz-hit" x="366.0" y="20" width="6" height="304"><title>Nov 2019: SCOM 29.25</title></rect><rect class="viz-hit" x="369.9" y="20" width="6" height="304"><title>Dec 2019: SCOM 31.50</title></rect><rect class="viz-hit" x="373.8" y="20" width="6" height="304"><title>Jan 2020: SCOM 30.45</title></rect><rect class="viz-hit" x="377.4" y="20" width="6" height="304"><title>Feb 2020: SCOM 27.90</title></rect><rect class="viz-hit" x="381.3" y="20" width="6" height="304"><title>Mar 2020: SCOM 26.45</title></rect><rect class="viz-hit" x="385.1" y="20" width="6" height="304"><title>Apr 2020: SCOM 28.50</title></rect><rect class="viz-hit" x="389.0" y="20" width="6" height="304"><title>May 2020: SCOM 28.55</title></rect><rect class="viz-hit" x="392.7" y="20" width="6" height="304"><title>Jun 2020: SCOM 28.65</title></rect><rect class="viz-hit" x="396.6" y="20" width="6" height="304"><title>Jul 2020: SCOM 28.15</title></rect><rect class="viz-hit" x="400.5" y="20" width="6" height="304"><title>Aug 2020: SCOM 29.90</title></rect><rect class="viz-hit" x="404.3" y="20" width="6" height="304"><title>Sep 2020: SCOM 29.70</title></rect><rect class="viz-hit" x="408.2" y="20" width="6" height="304"><title>Oct 2020: SCOM 30.85</title></rect><rect class="viz-hit" x="411.9" y="20" width="6" height="304"><title>Nov 2020: SCOM 32.70</title></rect><rect class="viz-hit" x="415.8" y="20" width="6" height="304"><title>Dec 2020: SCOM 34.25</title></rect><rect class="viz-hit" x="419.7" y="20" width="6" height="304"><title>Jan 2021: SCOM 35.85</title></rect><rect class="viz-hit" x="423.2" y="20" width="6" height="304"><title>Feb 2021: SCOM 38.75</title></rect><rect class="viz-hit" x="427.1" y="20" width="6" height="304"><title>Mar 2021: SCOM 36.25</title></rect><rect class="viz-hit" x="430.9" y="20" width="6" height="304"><title>Apr 2021: SCOM 40.35</title></rect><rect class="viz-hit" x="434.8" y="20" width="6" height="304"><title>May 2021: SCOM 40.85</title></rect><rect class="viz-hit" x="438.5" y="20" width="6" height="304"><title>Jun 2021: SCOM 41.45</title></rect><rect class="viz-hit" x="442.4" y="20" width="6" height="304"><title>Jul 2021: SCOM 41.95</title></rect><rect class="viz-hit" x="445.3" y="20" width="6" height="304"><title>Aug 2021: SCOM 44.95</title></rect><rect class="viz-hit" x="446.3" y="20" width="6" height="304"><title>Aug 2021: SCOM 42.60</title></rect><rect class="viz-hit" x="450.1" y="20" width="6" height="304"><title>Sep 2021: SCOM 42.10</title></rect><rect class="viz-hit" x="454.0" y="20" width="6" height="304"><title>Oct 2021: SCOM 42.80</title></rect><rect class="viz-hit" x="457.7" y="20" width="6" height="304"><title>Nov 2021: SCOM 37.95</title></rect><rect class="viz-hit" x="461.6" y="20" width="6" height="304"><title>Dec 2021: SCOM 37.95</title></rect><rect class="viz-hit" x="465.5" y="20" width="6" height="304"><title>Jan 2022: SCOM 36.90</title></rect><rect class="viz-hit" x="469.0" y="20" width="6" height="304"><title>Feb 2022: SCOM 35.95</title></rect><rect class="viz-hit" x="472.9" y="20" width="6" height="304"><title>Mar 2022: SCOM 34.15</title></rect><rect class="viz-hit" x="476.7" y="20" width="6" height="304"><title>Apr 2022: SCOM 33.70</title></rect><rect class="viz-hit" x="480.6" y="20" width="6" height="304"><title>May 2022: SCOM 26.00</title></rect><rect class="viz-hit" x="484.4" y="20" width="6" height="304"><title>Jun 2022: SCOM 24.95</title></rect><rect class="viz-hit" x="488.2" y="20" width="6" height="304"><title>Jul 2022: SCOM 29.95</title></rect><rect class="viz-hit" x="492.1" y="20" width="6" height="304"><title>Aug 2022: SCOM 27.95</title></rect><rect class="viz-hit" x="495.9" y="20" width="6" height="304"><title>Sep 2022: SCOM 24.95</title></rect><rect class="viz-hit" x="499.8" y="20" width="6" height="304"><title>Oct 2022: SCOM 25.10</title></rect><rect class="viz-hit" x="503.6" y="20" width="6" height="304"><title>Nov 2022: SCOM 24.35</title></rect><rect class="viz-hit" x="507.4" y="20" width="6" height="304"><title>Dec 2022: SCOM 24.15</title></rect><rect class="viz-hit" x="511.3" y="20" width="6" height="304"><title>Jan 2023: SCOM 23.40</title></rect><rect class="viz-hit" x="514.9" y="20" width="6" height="304"><title>Feb 2023: SCOM 23.30</title></rect><rect class="viz-hit" x="518.7" y="20" width="6" height="304"><title>Mar 2023: SCOM 18.10</title></rect><rect class="viz-hit" x="522.5" y="20" width="6" height="304"><title>Apr 2023: SCOM 16.50</title></rect><rect class="viz-hit" x="526.4" y="20" width="6" height="304"><title>May 2023: SCOM 16.60</title></rect><rect class="viz-hit" x="530.2" y="20" width="6" height="304"><title>Jun 2023: SCOM 17.50</title></rect><rect class="viz-hit" x="534.1" y="20" width="6" height="304"><title>Jul 2023: SCOM 16.90</title></rect><rect class="viz-hit" x="537.9" y="20" width="6" height="304"><title>Aug 2023: SCOM 15.40</title></rect><rect class="viz-hit" x="541.7" y="20" width="6" height="304"><title>Sep 2023: SCOM 14.60</title></rect><rect class="viz-hit" x="545.6" y="20" width="6" height="304"><title>Oct 2023: SCOM 12.45</title></rect><rect class="viz-hit" x="546.0" y="20" width="6" height="304"><title>Nov 2023: SCOM 11.65</title></rect><rect class="viz-hit" x="549.4" y="20" width="6" height="304"><title>Nov 2023: SCOM 13.45</title></rect><rect class="viz-hit" x="553.3" y="20" width="6" height="304"><title>Dec 2023: SCOM 13.90</title></rect><rect class="viz-hit" x="557.1" y="20" width="6" height="304"><title>Jan 2024: SCOM 13.60</title></rect><rect class="viz-hit" x="560.8" y="20" width="6" height="304"><title>Feb 2024: SCOM 13.25</title></rect><rect class="viz-hit" x="564.7" y="20" width="6" height="304"><title>Mar 2024: SCOM 17.75</title></rect><rect class="viz-hit" x="568.4" y="20" width="6" height="304"><title>Apr 2024: SCOM 15.95</title></rect><rect class="viz-hit" x="572.3" y="20" width="6" height="304"><title>May 2024: SCOM 17.90</title></rect><rect class="viz-hit" x="576.1" y="20" width="6" height="304"><title>Jun 2024: SCOM 17.30</title></rect><rect class="viz-hit" x="580.0" y="20" width="6" height="304"><title>Jul 2024: SCOM 15.90</title></rect><rect class="viz-hit" x="583.9" y="20" width="6" height="304"><title>Aug 2024: SCOM 14.50</title></rect><rect class="viz-hit" x="587.6" y="20" width="6" height="304"><title>Sep 2024: SCOM 15.00</title></rect><rect class="viz-hit" x="591.5" y="20" width="6" height="304"><title>Oct 2024: SCOM 16.75</title></rect><rect class="viz-hit" x="595.3" y="20" width="6" height="304"><title>Nov 2024: SCOM 15.00</title></rect><rect class="viz-hit" x="599.2" y="20" width="6" height="304"><title>Dec 2024: SCOM 17.05</title></rect><rect class="viz-hit" x="603.1" y="20" width="6" height="304"><title>Jan 2025: SCOM 17.20</title></rect><rect class="viz-hit" x="606.6" y="20" width="6" height="304"><title>Feb 2025: SCOM 17.95</title></rect><rect class="viz-hit" x="610.5" y="20" width="6" height="304"><title>Mar 2025: SCOM 18.30</title></rect><rect class="viz-hit" x="614.3" y="20" width="6" height="304"><title>Apr 2025: SCOM 17.55</title></rect><rect class="viz-hit" x="618.1" y="20" width="6" height="304"><title>May 2025: SCOM 20.60</title></rect><rect class="viz-hit" x="621.9" y="20" width="6" height="304"><title>Jun 2025: SCOM 25.00</title></rect><rect class="viz-hit" x="625.8" y="20" width="6" height="304"><title>Jul 2025: SCOM 26.30</title></rect><rect class="viz-hit" x="629.7" y="20" width="6" height="304"><title>Aug 2025: SCOM 28.60</title></rect><rect class="viz-hit" x="633.5" y="20" width="6" height="304"><title>Sep 2025: SCOM 28.90</title></rect><rect class="viz-hit" x="637.3" y="20" width="6" height="304"><title>Oct 2025: SCOM 30.25</title></rect><rect class="viz-hit" x="641.1" y="20" width="6" height="304"><title>Nov 2025: SCOM 28.75</title></rect><rect class="viz-hit" x="645.0" y="20" width="6" height="304"><title>Dec 2025: SCOM 28.35</title></rect></svg>
+          <figcaption>Safaricom (SCOM) month-end closing price, 2013–2025. Hover the line for monthly values. Source: NSE All Stocks Prices datasets, Mendeley Data (CC BY 4.0); analysis by the author.</figcaption>
+        </figure>
+        <p>Safaricom shows why long histories matter. It rose almost ninefold, from KES 5.10 in January 2013 to KES 44.95 in August 2021. It then lost 74% of that by November 2023, to KES 11.65, in a period that included Kenya’s 2023 currency slide and heavy spending on its Ethiopia expansion. By the end of 2025 it had more than doubled from that low, to KES 28.35. Someone who only looked at 2021–2023 would draw a very different conclusion from someone who looked at the whole period.</p>
+        <details class="data-table"><summary>Safaricom year-end prices (table)</summary><div class="table-wrap"><table><thead><tr><th>Year</th><th>Close (KES)</th></tr></thead><tbody><tr><td>2013</td><td>10.85</td></tr><tr><td>2014</td><td>14.05</td></tr><tr><td>2015</td><td>16.30</td></tr><tr><td>2016</td><td>19.10</td></tr><tr><td>2017</td><td>26.75</td></tr><tr><td>2018</td><td>22.20</td></tr><tr><td>2019</td><td>31.50</td></tr><tr><td>2020</td><td>34.25</td></tr><tr><td>2021</td><td>37.95</td></tr><tr><td>2022</td><td>24.15</td></tr><tr><td>2023</td><td>13.90</td></tr><tr><td>2024</td><td>17.05</td></tr><tr><td>2025</td><td>28.35</td></tr></tbody></table></div></details>
+
+        <h2>Download the cleaned numbers</h2>
+        <p>To save you the cleaning, here are the month-end values for the NSE All Share Index, NSE-20, NSE-25 and Safaricom from 2013 to 2025 as one small CSV: <a href="../nse-python/nse-month-end-2013-2025.csv" download>nse-month-end-2013-2025.csv</a>. It is derived from the datasets above and shared under the same CC BY 4.0 terms. Index columns are blank for January to May 2022 and the NSE-25 before October 2015, because the source has no values for those months.</p>
+
+        <h2>Frequently asked questions</h2>
+        <details class="faq"><summary>Where can I download historical NSE Kenya stock prices for free?</summary><p>Barack Wanjawa’s <em>NSE All Stocks Prices</em> datasets on Mendeley Data cover every listed company and the main indices with daily prices from January 2013 to December 2025. They are free under a CC BY 4.0 licence, so you can reuse them with credit.</p></details>
+<details class="faq"><summary>What columns does the NSE dataset contain?</summary><p>Thirteen: date, stock code, company name, 12-month low and high, the day’s low, high and closing price, the previous price, change, change %, volume traded and an adjusted price.</p></details>
+<details class="faq"><summary>Is the NSE data adjusted for stock splits and bonus issues?</summary><p>No. Prices are as traded. The adjusted-price column is mostly empty and unreliable, so bonus issues and splits (for example I&amp;M Holdings and Kenya Re) show up as sudden drops. Adjust for them before calculating long-term returns.</p></details>
+<details class="faq"><summary>How accurate is the dataset?</summary><p>In my checks, 99.5% of rows have a ‘previous price’ that matches the prior day’s close. Index values match published figures, such as the NSE All Share Index closing 2023 at 92.11. I found and fixed one wrong date, 69 duplicate rows and two bad index values.</p></details>
+<details class="faq"><summary>What was Safaricom’s highest share price between 2013 and 2025?</summary><p>KES 44.95, on 23 August 2021. It then fell to KES 11.65 on 3 November 2023 before closing 2025 at KES 28.35.</p></details>
+
+        <h2>What’s next</h2>
+        <p>Part 2 uses the index rows to answer a bigger question: what happened to the Nairobi stock market as a whole over these 13 years, in shillings and in dollars?</p>
+        <p class="sources"><strong>Sources.</strong> Wanjawa, B. (2021–2025). <em>Nairobi Securities Exchange (NSE) All Stocks Prices</em>, Mendeley Data, CC BY 4.0: <a href="https://data.mendeley.com/datasets/73rb78pmzw/2">2013–2020</a>, <a href="https://data.mendeley.com/datasets/97hkwn5y3x">2021</a>, <a href="https://data.mendeley.com/datasets/jmcdmnyh2s">2022</a>, <a href="https://data.mendeley.com/datasets/ss5pfw8xnk">2023–2024</a>, <a href="https://data.mendeley.com/datasets/2b63rx67xt">2025</a>. Market checks: <a href="https://www.the-star.co.ke/business/2024-01-24-nse-investors-lost-sh530bn-in-wealth-in-2023-report">The Star, 24 January 2024</a>.</p>
+      </div>
+
+      <aside class="series-box" aria-label="The NSE in Python series">
+        <p class="series-title">The NSE in Python · an 8-part series</p>
+        <ol><li aria-current="page"><span><b>Part 1</b> Getting NSE stock data into Python</span></li><li><a href="../nse-2013-2025-in-one-chart/"><b>Part 2</b> 13 years of the NSE in one chart</a></li><li><span><b>Part 3</b> Dividends vs price: what investors actually earned</span></li><li><span><b>Part 4</b> How risky is each NSE stock?</span></li><li><span><b>Part 5</b> The liquidity problem</span></li><li><span><b>Part 6</b> Do NSE stocks move together?</span></li><li><span><b>Part 7</b> I built an AI model to predict NSE prices. It failed.</span></li><li><span><b>Part 8</b> Build your own NSE dashboard</span></li></ol>
+      </aside>
+
+      <p class="disclaimer"><strong>Educational, not financial advice.</strong> This series analyses historical market data to teach data skills. Nothing here is a recommendation to buy or sell any security. Past performance does not predict future returns.</p>
+
+      <div class="article-foot">
+        <p>Questions, corrections or a dataset I should look at? <a href="mailto:mihawi02onyango@gmail.com">mihawi02onyango@gmail.com</a></p>
+        <a class="pill" href="../">← All posts</a>
+      </div>
+    </article>
+  </main>
+
+  <footer><span>© 2026 Michael Hawi Onyango</span><a href="#article" class="to-top">Back to top ↑</a></footer>
+  <script src="../../script.js"></script>
+</body>
+</html>
