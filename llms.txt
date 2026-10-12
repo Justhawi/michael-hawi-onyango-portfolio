@@ -1,0 +1,15 @@
+# Michael Hawi Onyango
+
+> AI engineer specialising in SEO and GEO (generative engine optimisation): helping brands get found in Google and cited in AI answers, and building the data pipelines and AI tools behind it. Currently at Petplan España. BSc Applied Computer Technology, USIU-Africa (2026).
+
+## About
+- [Portfolio and CV](https://michael-hawi-onyango-portfolio.onrender.com/): projects, experience, skills and contact
+- [CV (PDF)](https://michael-hawi-onyango-portfolio.onrender.com/Michael-Hawi-Onyango-CV.pdf)
+
+## The NSE in Python (data series on the Nairobi Securities Exchange, 2013–2025)
+- [Part 1: How to get NSE stock data into Python, free](https://michael-hawi-onyango-portfolio.onrender.com/blog/nse-historical-data-python/): free daily NSE prices 2013–2025, loading and cleaning in pandas, data errors fixed, Safaricom price history
+- [Part 2: How the Nairobi Securities Exchange performed from 2013 to 2025](https://michael-hawi-onyango-portfolio.onrender.com/blog/nse-2013-2025-in-one-chart/): annual NSE All Share Index and NSE-20 returns, the 2018–2023 drawdown, shilling vs dollar returns
+- [Dataset: NSE month-end index levels and Safaricom price, 2013–2025 (CSV, CC BY 4.0)](https://michael-hawi-onyango-portfolio.onrender.com/blog/nse-python/nse-month-end-2013-2025.csv)
+
+## Other writing
+- [Why a 4.9 from 40 reviews shouldn't beat a 4.7 from 12,000](https://michael-hawi-onyango-portfolio.onrender.com/blog/weighted-ratings/): weighted (Bayesian) ratings explained with Python
